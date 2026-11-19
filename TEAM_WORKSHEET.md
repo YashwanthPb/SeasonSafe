@@ -1,6 +1,6 @@
 # Team decisions and evidence
 
-Team number and members: [fill from your official team sheet; not inferred]
+Team number and members: Team 46, Section C — Garima Rohilla (team leader, B2026126), Harleen Kaur (B2026128), Yashwanth M (B2026161). Source: course team-details sheet.
 Business stakeholder: [name/role with permission, or explicitly no interview]
 Actual stakeholder quote/notes: [record only if obtained]
 Capacity assumption and justification: [10% is the supplied example, not an observed fact]

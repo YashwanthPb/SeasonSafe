@@ -4,7 +4,7 @@
 This project audits whether a purchase-score cutoff that selects 10% of October sessions still holds a
 10% workload in November and December. It uses the UCI Online Shoppers Purchasing Intention dataset
 (12,330 sessions, CC BY 4.0). Course project for Advanced Machine Learning for Business Transformation,
-Goa Institute of Management.
+Goa Institute of Management. Team 46 (Section C): Garima Rohilla, Harleen Kaur, Yashwanth M.
 
 Report: [PDF](SeasonSafe_Project_Report.pdf) · [Word](SeasonSafe_Project_Report.docx) ·
 [IEEE LaTeX source](report/seasonsafe.tex)
@@ -27,7 +27,7 @@ Report: [PDF](SeasonSafe_Project_Report.pdf) · [Word](SeasonSafe_Project_Report
 | `results/` | Primary outputs, including `source_dataset.csv` (as loaded) and `cleaned_dataset.csv` |
 | `sensitivity_deduplicated/` | Duplicate-removal sensitivity outputs |
 | `results_extended/` | Post-hoc outputs; every CSV has an `analysis_status` column |
-| `report/` | IEEE conference LaTeX source of the paper (for Overleaf) |
+| `report/` | IEEE conference LaTeX source, compiled PDF, and `make_figures.py` (builds the six multi-panel figures) |
 | `FEATURES.csv`, `SOURCES.md`, `VALIDATION.md`, `TEAM_WORKSHEET.md`, `AI_USE_LOG.md` | Supporting records |
 | `SeasonSafe_Complete.zip` | Original 11 Nov delivery bundle (superseded by the unpacked files above) |
 
@@ -40,6 +40,7 @@ pip install -r requirements_verified.txt pytest
 python experiment.py --csv results/source_dataset.csv --output reproduced_results
 python experiment.py --csv results/source_dataset.csv --dedup --output reproduced_dedup
 python extended_analysis.py --csv results/source_dataset.csv --output reproduced_extended
+python report/make_figures.py   # rebuilds report/figures/ from results/ and results_extended/
 python -m pytest -q
 ```
 

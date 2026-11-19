@@ -25,3 +25,5 @@ EXTENDED_FINDINGS.md, README.md updates, VALIDATION.md addendum and the IEEE LaT
 Verification performed by the tool: reran the primary and sensitivity pipelines and compared every
 published CSV (max difference 1e-12); 12 automated tests pass.
 Team-authored work in this session: none. The AI share of code and text increased in this session.
+Later the same day: Claude Code wrote report/make_figures.py and replaced the report's seven single plots
+with six multi-panel figures (16 panels), and added team names from the course team sheet to the author block.
