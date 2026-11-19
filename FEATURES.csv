@@ -1,0 +1,19 @@
+feature,role,timing_note
+Month,primary arrival-context proxy,Assumed available at arrival; validate production logging
+OperatingSystems,primary arrival-context proxy,Assumed available at arrival; validate production logging
+Browser,primary arrival-context proxy,Assumed available at arrival; validate production logging
+Region,primary arrival-context proxy,Assumed available at arrival; validate production logging
+TrafficType,primary arrival-context proxy,Assumed available at arrival; validate production logging
+VisitorType,primary arrival-context proxy,Assumed available at arrival; validate production logging
+Weekend,primary arrival-context proxy,Assumed available at arrival; validate production logging
+SpecialDay,primary arrival-context proxy,Assumed available at arrival; validate production logging
+Administrative,retrospective diagnostic only,Public CSV does not establish early-session availability
+Administrative_Duration,retrospective diagnostic only,Public CSV does not establish early-session availability
+Informational,retrospective diagnostic only,Public CSV does not establish early-session availability
+Informational_Duration,retrospective diagnostic only,Public CSV does not establish early-session availability
+ProductRelated,retrospective diagnostic only,Public CSV does not establish early-session availability
+ProductRelated_Duration,retrospective diagnostic only,Public CSV does not establish early-session availability
+BounceRates,retrospective diagnostic only,Public CSV does not establish early-session availability
+ExitRates,retrospective diagnostic only,Public CSV does not establish early-session availability
+PageValues,retrospective diagnostic only,Transaction-related; historical availability not established
+Revenue,binary target,"Purchase outcome, not currency amount"

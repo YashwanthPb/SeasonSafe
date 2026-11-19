@@ -1,0 +1,9 @@
+analysis_status,period,visitor_type,n,share_of_month,mean_score,share_above_october_cutoff,selected_by_fixed_cutoff
+post-hoc (designed after held-out results were seen),Oct,New_Visitor,124,0.22586520947176686,0.243687497929941,0.4032258064516129,50
+post-hoc (designed after held-out results were seen),Oct,Returning_Visitor,425,0.7741347905282332,0.13138273141690443,0.009411764705882352,4
+post-hoc (designed after held-out results were seen),Nov,New_Visitor,419,0.13975983989326218,0.2700814022847202,0.5083532219570406,213
+post-hoc (designed after held-out results were seen),Nov,Other,22,0.00733822548365577,0.1217421340122557,0.0,0
+post-hoc (designed after held-out results were seen),Nov,Returning_Visitor,2557,0.8529019346230821,0.1302321038544787,0.014078998826750098,36
+post-hoc (designed after held-out results were seen),Dec,New_Visitor,335,0.19397799652576722,0.25989400162048465,0.4835820895522388,162
+post-hoc (designed after held-out results were seen),Dec,Other,62,0.03590040532715692,0.12355108723007013,0.016129032258064516,1
+post-hoc (designed after held-out results were seen),Dec,Returning_Visitor,1330,0.7701215981470758,0.1331606163455565,0.014285714285714285,19

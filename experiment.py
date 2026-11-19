@@ -270,7 +270,16 @@ if __name__=='__main__':
     import argparse
     parser=argparse.ArgumentParser()
     parser.add_argument('--csv',default=None)
-    parser.add_argument('--output',default='results')
+    parser.add_argument('--output',default=None,
+                        help="Default: 'results', or 'sensitivity_deduplicated' with --dedup")
+    parser.add_argument('--dedup',action='store_true',
+                        help='Pre-specified sensitivity: drop exact duplicate rows before the identical pipeline')
     args=parser.parse_args()
     data,sha=load_data(args.csv)
-    run_experiment(data,args.output,sha)
+    if args.dedup:
+        before=len(data)
+        data=data.drop_duplicates().reset_index(drop=True)
+        # Hash the transformed table so the manifest never claims to be the official file.
+        sha='deduplicated:'+hashlib.sha256(data.to_csv(index=False).encode('utf-8')).hexdigest()
+        print(f'Sensitivity run: removed {before-len(data)} exact duplicate rows (transformed data).')
+    run_experiment(data,args.output or ('sensitivity_deduplicated' if args.dedup else 'results'),sha)

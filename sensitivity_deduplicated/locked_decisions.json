@@ -1,0 +1,24 @@
+{
+  "seed": 161,
+  "data_sha256": "a4353054cc6c2aaff91c5449797e1801fb339eb6143b9040bee13dbce27dc6d3",
+  "primary_family": "arrival_context",
+  "selected_model": "hist_boost",
+  "selected_using": "October average precision; Brier tie-break",
+  "train_months": "available months February-September (any January also included)",
+  "validation_month": "October",
+  "test_months": [
+    "November",
+    "December"
+  ],
+  "thresholds": {
+    "0.05": 0.3098616319997823,
+    "0.1": 0.29123173084814385,
+    "0.2": 0.22381268286754538
+  },
+  "duplicate_rows_retained": 0,
+  "quick_test_only": false,
+  "python": "3.14.6",
+  "sklearn": "1.9.0",
+  "numpy": "2.5.1",
+  "pandas": "3.0.5"
+}

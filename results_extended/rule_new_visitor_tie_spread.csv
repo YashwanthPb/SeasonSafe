@@ -1,0 +1,4 @@
+analysis_status,period,repeats,precision_mean,precision_p2_5,precision_p97_5
+post-hoc (designed after held-out results were seen),Oct,200,0.2248148148148148,0.14814814814814814,0.2962962962962963
+post-hoc (designed after held-out results were seen),Nov,200,0.3051170568561873,0.2842809364548495,0.3311036789297659
+post-hoc (designed after held-out results were seen),Dec,200,0.22508720930232556,0.18023255813953487,0.26744186046511625

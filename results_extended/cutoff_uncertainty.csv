@@ -1,0 +1,3 @@
+analysis_status,period,budget,selected_point,selected_p2_5,selected_median,selected_p97_5,share_of_draws_under_budget,share_of_draws_over_budget,distinct_score_values_in_month,repeats
+post-hoc (designed after held-out results were seen),Nov,299,249,199.0,249.0,301.0,0.9585,0.0415,819,2000
+post-hoc (designed after held-out results were seen),Dec,172,182,127.0,182.0,208.0,0.0325,0.797,545,2000

@@ -1,0 +1,4 @@
+split,n,purchases
+train,7056,817
+validation,549,115
+test,4725,976

@@ -1,0 +1,10 @@
+analysis_status,model,tuned_params,period,average_precision,roc_auc,precision_top10,fixed_selected,budget
+post-hoc (designed after held-out results were seen),logistic,"{""C"": 0.01}",Oct,0.24313349676043525,0.570266479663394,0.2222222222222222,55,54
+post-hoc (designed after held-out results were seen),logistic,"{""C"": 0.01}",Nov,0.30998432257974806,0.5943305818164715,0.3311036789297659,175,299
+post-hoc (designed after held-out results were seen),logistic,"{""C"": 0.01}",Dec,0.19680036236411144,0.6445755815378581,0.23837209302325582,162,172
+post-hoc (designed after held-out results were seen),random_forest,"{""min_samples_leaf"": 25, ""n_estimators"": 200}",Oct,0.23450063632602627,0.5692446403526348,0.2222222222222222,54,54
+post-hoc (designed after held-out results were seen),random_forest,"{""min_samples_leaf"": 25, ""n_estimators"": 200}",Nov,0.3158597728707066,0.5966241004656413,0.3511705685618729,205,299
+post-hoc (designed after held-out results were seen),random_forest,"{""min_samples_leaf"": 25, ""n_estimators"": 200}",Dec,0.2198971245689496,0.6563595362404098,0.2441860465116279,165,172
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 15, ""learning_rate"": 0.03, ""max_iter"": 150}",Oct,0.24830740861299455,0.586545782408335,0.2222222222222222,58,54
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 15, ""learning_rate"": 0.03, ""max_iter"": 150}",Nov,0.3232765581122429,0.5996692888387187,0.3377926421404682,229,299
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 15, ""learning_rate"": 0.03, ""max_iter"": 150}",Dec,0.19093225837571837,0.6435706056817903,0.23837209302325582,167,172
