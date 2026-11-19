@@ -82,7 +82,7 @@ def fig_data():
     a2.set_xticks(x, mr.Month)
     handles = [plt.Rectangle((0, 0), 1, 1, color=c) for c in colors.values()]
     a2.set_ylim(0, .34)
-    a2.legend(handles, ['Train (Feb–Sep)', 'Validation (Oct)', 'Test (Nov–Dec)'], loc='upper left', ncol=3, fontsize=5.8)
+    a2.legend(handles, ['Train (Feb to Sep)', 'Validation (Oct)', 'Test (Nov, Dec)'], loc='upper left', ncol=3, fontsize=5.8)
     fig.tight_layout(h_pad=.6)
     save(fig, 'fA_data.png')
 
@@ -140,7 +140,7 @@ def fig_capacity():
     ax.axvline(1, color=INK, lw=.8, ls='--')
     for m in ['Nov', 'Dec']:
         lo, hi = np.quantile(draws[m], [.025, .975])
-        ax.text(.57, ax.get_ylim()[1] * (.9 if m == 'Nov' else .78), f'{m} 95%: {lo:.0%}–{hi:.0%}',
+        ax.text(.57, ax.get_ylim()[1] * (.9 if m == 'Nov' else .78), f'{m} 95%: {lo:.0%} to {hi:.0%}',
                 fontsize=5.8, color=MONTH_C[m] if m == 'Nov' else '#b4461b')
     ax.xaxis.set_major_formatter(PercentFormatter(1, decimals=0))
     ax.set(xlabel='Selected / budget', ylabel='Bootstrap resamples')
@@ -178,7 +178,7 @@ def fig_models():
     ax.axhline(base, color=INK, lw=.8, ls=':')
     ax.text(.5, base - .06, 'random (base rate)', fontsize=5.6, color=MUTED, ha='center')
     ax.set(xlabel='Recall', ylabel='Precision', xlim=(0, 1), ylim=(0, 1.02)); ax.legend(loc='upper right')
-    title(ax, 'b', 'PR curves, Nov–Dec (boosting)')
+    title(ax, 'b', 'PR curves, Nov and Dec (boosting)')
     # (c) cumulative gains pooled Nov-Dec
     ax = axs[2]
     y = np.concatenate([ys['Nov'], ys['Dec']])
@@ -200,7 +200,7 @@ def fig_models():
     ax.axvline(.1, color=GRID, lw=1.2, zorder=0)
     ax.xaxis.set_major_formatter(PercentFormatter(1, decimals=0)); ax.yaxis.set_major_formatter(PercentFormatter(1, decimals=0))
     ax.set(xlabel='Share of sessions selected', ylabel='Share of buyers captured', xlim=(0, 1), ylim=(0, 1.02))
-    ax.legend(loc='lower right', fontsize=5.6); title(ax, 'c', 'Cumulative gains, Nov–Dec')
+    ax.legend(loc='lower right', fontsize=5.6); title(ax, 'c', 'Cumulative gains, Nov and Dec')
     fig.tight_layout(w_pad=1.2)
     save(fig, 'fC_models.png')
 
@@ -222,10 +222,10 @@ def fig_drift():
     # (b) traffic mix
     ax = axs[1]
     d = pd.concat([parts[m].assign(m=m) for m in ['Oct', 'Nov', 'Dec']])
-    grp = d.TrafficType.astype(int).map(lambda t: 'Types 4–5' if t in (4, 5) else 'Types 8, 10' if t in (8, 10)
+    grp = d.TrafficType.astype(int).map(lambda t: 'Types 4, 5' if t in (4, 5) else 'Types 8, 10' if t in (8, 10)
                             else f'Type {t}' if t in (1, 2, 3) else 'Other')
     share = pd.crosstab(grp, d.m, normalize='columns')[['Oct', 'Nov', 'Dec']]
-    share = share.loc[['Type 1', 'Type 2', 'Type 3', 'Types 4–5', 'Types 8, 10', 'Other']]
+    share = share.loc[['Type 1', 'Type 2', 'Type 3', 'Types 4, 5', 'Types 8, 10', 'Other']]
     x = np.arange(len(share)); w = .26
     for i, m in enumerate(['Oct', 'Nov', 'Dec']):
         bars(ax, x + (i - 1) * w, share[m], w, MONTH_C[m], m)

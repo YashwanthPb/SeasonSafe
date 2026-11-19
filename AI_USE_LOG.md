@@ -27,3 +27,6 @@ published CSV (max difference 1e-12); 12 automated tests pass.
 Team-authored work in this session: none. The AI share of code and text increased in this session.
 Later the same day: Claude Code wrote report/make_figures.py and replaced the report's seven single plots
 with six multi-panel figures (16 panels), and added team names from the course team sheet to the author block.
+Later the same day: at the user's request, Claude Code ran a humanizer editing pass over report/seasonsafe.tex
+(plainer wording, no en/em dashes in prose; all numbers, citations and claims unchanged). This changes
+phrasing only; it does not change who wrote the text or the AI share.
