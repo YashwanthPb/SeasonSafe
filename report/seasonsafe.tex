@@ -1,0 +1,384 @@
+% SeasonSafe: IEEE conference paper source (AMLBT, Goa Institute of Management).
+% Build: pdflatex seasonsafe.tex (twice). Overleaf: upload this file and figures/ into a copy of the course template.
+% DRAFT written with AI assistance on 19 Nov 2026 (see Section IX-A). The team must review, rewrite and own the text.
+\documentclass[conference]{IEEEtran}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{url}
+\usepackage[hidelinks]{hyperref}
+\graphicspath{{figures/}}
+
+\begin{document}
+
+\title{SeasonSafe: Do E-Commerce Purchase-Score Cutoffs Survive a Change in Shopping Patterns?}
+
+% Team 46, Section C (course team sheet). TODO(team): add institutional e-mails in the template format if required.
+\author{\IEEEauthorblockN{Garima Rohilla, Harleen Kaur, Yashwanth M}
+\IEEEauthorblockA{Goa Institute of Management\\
+Big Data Analytics\\
+Student IDs: \{B2026126, B2026128, B2026161\}}}
+
+\maketitle
+
+\begin{abstract}
+A retailer with a small sales or service team can only follow up on a fixed number of web sessions
+each month. If it picks those sessions with a purchase score and a fixed cutoff, the cutoff decides
+the team's workload. We set a cutoff that selected 10\% of October sessions in the UCI Online Shoppers
+Purchasing Intention dataset (12,330 sessions) and checked what it selected in November and December.
+Models were trained on February to September and chosen on October. The cutoff selected 249 sessions
+against a November budget of 299 and 182 against a December budget of 172. Ranking sessions within each
+month met the budget by design, but its precision was no better. Checks we added after seeing these
+results weaken the December number. The Month feature never appears in training for any October to
+December row, and dropping it turns December's overflow into a shortfall. Re-estimating the cutoff on
+resampled October data gives anywhere from 127 to 208 December selections, and a rule that simply puts
+new visitors first comes close to the model's precision. What holds up is the general point: a cutoff
+frozen on one month does not keep the workload steady when the traffic mix changes, so workload and
+probability accuracy need to be monitored separately.
+\end{abstract}
+
+\begin{IEEEkeywords}
+E-commerce, purchase intention, temporal validation, dataset shift, capacity constraints, probability calibration
+\end{IEEEkeywords}
+
+\section{Introduction}
+Many online retailers score live sessions for purchase propensity and act on the top scores, for
+example by opening a chat, scheduling a call-back or showing a targeted banner. Each of these costs
+staff time or campaign budget. So besides asking how well a model ranks shoppers, a manager has to
+ask how many sessions the rule will send to the team next month.
+
+A simple way to run such a rule is to pick a probability threshold on recent data and keep using it.
+This assumes the score distribution stays put. Seasonal campaigns, new traffic sources and a change in
+the share of new visitors can all move scores, so a cutoff set in one month can leave the team idle or
+overloaded in the next. Concept-drift research documents this kind of failure for accuracy
+\cite{b7,b8}. In the purchase-intention studies we reviewed, we did not find one that measured the
+effect on workload.
+
+\subsection{Scope and objectives}
+SeasonSafe measures that effect on public data. We (i) measure how far a frozen October cutoff misses
+a 10\% selection budget in November and December; (ii) compare it with ranking each month and taking
+the top 10\% offline; (iii) check whether the predicted number of buyers is accurate; (iv) estimate how
+much of the model's performance depends on information that does not exist when a visitor arrives; and
+(v) look at why the cutoff drifts and whether a simpler rule would do as well. We use historical
+outcomes only, so we make no claim about extra sales that an intervention would cause.
+
+\section{Related Work}
+Sakar \emph{et al.} \cite{b2} released the dataset and combined aggregated session features with
+sequential clickstream models (MLP and LSTM) to predict purchases and abandonment in real time. Baati
+and Mohsil \cite{b3} predicted purchase intention from the session and user information available when a
+visitor connects, so predicting at arrival is not new. Moe and Fader \cite{b9} modelled conversion as a
+mix of how often people visit and a purchase threshold that shifts as they gain experience with a site.
+That work is one reason we expect new and returning visitors to behave differently.
+
+Work on dataset shift \cite{b10} and on concept-drift adaptation \cite{b7} separates changes in the
+inputs from changes in how inputs relate to the outcome, and recommends watching both. Rabanser
+\emph{et al.} \cite{b8} found that simple two-sample tests can detect shift even when its effect on
+accuracy is unknown. For probabilities, Platt scaling \cite{b11} and isotonic regression \cite{b12} are
+the usual recalibration methods, and Niculescu-Mizil and Caruana \cite{b13} showed that tree ensembles
+and boosted models are often poorly calibrated. Kaufman \emph{et al.} \cite{b14} define leakage as using
+information that would not be available at prediction time. That is our concern with completed-session
+variables such as PageValues.
+
+Table~\ref{tab:rw} compares SeasonSafe with this work. Our contribution is small and practical. We link
+a frozen decision rule to three things in one time-ordered study: capacity error, the accuracy of the
+predicted buyer count, and limits on which features exist at decision time. We then test that link
+against an encoding artefact, noise in the cutoff and simple rule baselines. We do not propose a new
+learning algorithm.
+
+\begin{table}[t]
+\caption{Positioning against prior work}\label{tab:rw}
+\centering\footnotesize
+\begin{tabular}{@{}p{1.25cm}p{1.6cm}p{1.45cm}p{2.6cm}@{}}
+\toprule
+Work & Data & Validation & Decision / capacity view\\
+\midrule
+\cite{b2} & UCI + clickstream & Random split & Real-time prediction; no budget\\
+\cite{b3} & UCI, arrival info & Random split & Early prediction; no budget\\
+\cite{b7,b8} & Generic streams & Temporal & Drift detection; accuracy focus\\
+\textbf{Ours} & UCI, arrival proxies & Train Feb to Sep, select Oct, test Nov and Dec & Frozen vs.\ monthly top-$k$; capacity error, buyer-count accuracy, rule baselines\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Data}
+The dataset has 12,330 sessions from one online retailer over one year, each from a different user
+\cite{b1}, and 1,908 of them (15.47\%) end in a purchase. \texttt{Revenue} is a yes/no purchase flag,
+not an amount. There are no January or April sessions, and month sizes vary a lot: May has 3,364
+sessions and October only 549 (Fig.~\ref{fig:rates}).
+
+The primary model uses only arrival-context features: Month, OperatingSystems, Browser, Region,
+TrafficType, VisitorType, Weekend and SpecialDay. We assume these are known when a visitor arrives but
+cannot verify it, and we treat the coded categories as labels with no order. The retrospective features
+(page counts, durations, BounceRates, ExitRates) describe the whole session after it ends. PageValues
+is tied to transactions, and the dataset does not document when it is computed. We leave it out to be
+safe, which does not prove that it leaks \cite{b14}.
+
+We keep the 125 exact duplicate rows in the main analysis because nothing in the data shows they are
+repeated events, and we remove them in a sensitivity run decided in advance. Median imputation,
+standardisation and one-hot encoding (ignoring unseen categories) are fitted on training rows only
+\cite{b4}.
+
+\begin{figure}[t]
+\centering\includegraphics[width=\columnwidth]{fA_data.png}
+\caption{Data overview. (a) Sessions per month and (b) observed purchase rate, coloured by each month's role in the split. There are no January or April sessions.}
+\label{fig:rates}
+\end{figure}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{fB_capacity.png}
+\caption{Capacity. (a) Sessions selected relative to the 10\% budget by the frozen October cutoff, by a rolling cutoff taken from the previous month's scores (post-hoc; not defined for October) and by the offline monthly top-10\% rule. Labels show selected/budget for the frozen cutoff. (b) Share selected by the frozen cutoff at each target budget. (c) Selected/budget when the October cutoff is re-estimated on 2,000 bootstrap resamples of October.}
+\label{fig:cap}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{fC_models.png}
+\caption{Model quality. (a) October average precision by feature set and algorithm; the primary model is chosen among arrival-context models only. (b) Precision-recall curves and (c) cumulative gains on November and December combined. Session features are retrospective and would not exist at arrival. The grey line in (c) marks a 10\% budget.}
+\label{fig:models}
+\end{figure*}
+
+\section{Methodology}
+\subsection{Chronological design}
+We train on February to September (7,056 sessions, 817 purchases), use October (549 sessions, 115
+purchases) to choose the model and set the cutoff, and hold out November (2,998) and December (1,727).
+All of these choices were saved to a decision file before we computed any test results.
+
+\subsection{Models}
+For each feature set we fit three scikit-learn \cite{b5} classifiers: logistic regression with an L2
+penalty ($C=1$), a random forest \cite{b15} with 200 trees, a minimum leaf size of 10 and $\sqrt{p}$
+features per split, and histogram gradient boosting \cite{b16} with 150 iterations, 15 leaves, an L2
+penalty of 1 and no early stopping. The primary model is the arrival-context model with the highest
+October average precision (AP), with the Brier score as a tie-break. The random seed is 161.
+
+\subsection{Selection policies}
+Let $s_i$ be the score of session $i$ and $B=\lfloor 0.1\,n\rfloor$ the budget for a month with $n$
+sessions. The \emph{fixed policy} keeps the October cutoff
+\begin{equation}
+\tau = s^{\mathrm{Oct}}_{(B_{\mathrm{Oct}})},\qquad S_{\mathrm{fixed}}=\{i : s_i \ge \tau\},
+\end{equation}
+where $s_{(k)}$ is the $k$-th largest score. The \emph{batch policy} takes exactly the $B$ highest scores
+in each month and breaks ties at random with a fixed seed. It is only an offline reference, since a live
+queue cannot see sessions that arrive later in the month. Capacity error is $|S|-B$.
+
+\subsection{Evaluation metrics}
+For the business view we report the number selected, unused capacity $U=\max(0,B-|S|)$, overflow
+$O=\max(0,|S|-B)$, precision $=\sum_{i\in S}y_i/|S|$, and the predicted minus observed number of buyers
+in $S$. Accuracy is a poor guide when only 15\% of sessions convert, so the model diagnostics are AP,
+which suits imbalanced data better than ROC \cite{b17}, along with ROC-AUC, Brier score and log loss.
+Picking sessions at random would give a precision equal to the month's purchase rate, and a constant
+prediction at the training purchase rate is our baseline for probabilities. For the difference in
+precision between the two policies we report approximate 95\% paired-bootstrap intervals \cite{b18}
+from 500 resamples, holding the fitted model fixed.
+
+\subsection{Post-hoc analyses}
+After seeing the held-out results we added several checks. We removed Month and SpecialDay and refit.
+We compared the model with rules that rank sessions by their training purchase rate for each
+VisitorType and TrafficType. We bootstrapped October 2,000 times to see how much the cutoff itself
+varies. We tried seeds 161 to 170 and tuned hyperparameters with expanding windows inside the training
+months. We fitted Platt and isotonic recalibration on October. We measured drift with the population
+stability index
+\begin{equation}
+\mathrm{PSI}=\sum_j (a_j-e_j)\ln(a_j/e_j),
+\end{equation}
+where $e_j$ and $a_j$ are category shares in the reference and target month. We also computed
+permutation importance and tested a rolling policy that sets each month's cutoff from the previous
+month's scores, which needs no purchase labels. We mark all of these as post-hoc, and none of them
+replaces the locked result.
+
+\section{Results}
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{fD_drift.png}
+\caption{Why the cutoff drifts (post-hoc). (a) Distribution of primary-model scores by month, with the frozen October cutoff. (b) Traffic-type mix by month. (c) Population stability index against October (log scale; empty categories get a floor of 10$^{-4}$).}
+\label{fig:drift}
+\end{figure*}
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{fE_learned.png}
+\caption{What the model learned (post-hoc). (a) Share of new and returning visitors above the frozen cutoff. (b) Permutation importance as the drop in average precision over 30 shuffles. (c) Frozen-cutoff selections relative to budget after removing Month (never seen for these months) and SpecialDay (always zero for them); diamonds show logistic regression.}
+\label{fig:learned}
+\end{figure*}
+
+\subsection{Model selection}
+In October boosting had the highest AP at 0.2502, just ahead of logistic regression at 0.2488, with the
+random forest at 0.2372 (Fig.~\ref{fig:models}a). A gap of 0.0014 is much smaller than the sampling
+error we would expect on 549 sessions. On the held-out months ROC-AUC was 0.597 in November and 0.638 in
+December, so the model separates buyers from non-buyers only weakly.
+
+\subsection{Capacity and buyer concentration}
+Table~\ref{tab:policy} and Fig.~\ref{fig:cap}a give the main result. The frozen cutoff left 50 of
+November's 299 slots unused (16.7\%) and went 10 sessions over December's budget (5.8\%). The batch
+policy met both budgets, as it must. The paired-bootstrap interval for batch minus fixed precision was
+$[-4.11,+0.97]$ percentage points in November and $[-1.99,+2.33]$ in December. Both include zero, so we
+cannot say either policy picks buyers more precisely.
+
+\begin{table}[t]
+\caption{Primary policy results, 10\% budget (locked analysis)}\label{tab:policy}
+\centering\footnotesize
+\begin{tabular}{@{}llrrrr@{}}
+\toprule
+Month & Policy & Budget & Selected & Buyers & Precision\\
+\midrule
+Oct (val.) & Fixed = batch & 54 & 54 & 11 & 20.37\%\\
+Nov & Fixed Oct cutoff & 299 & 249 & 85 & 34.14\%\\
+Nov & Monthly top 10\% & 299 & 299 & 98 & 32.78\%\\
+Dec & Fixed Oct cutoff & 172 & 182 & 43 & 23.63\%\\
+Dec & Monthly top 10\% & 172 & 172 & 40 & 23.26\%\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Probability reliability}
+For December's 172 top-ranked sessions the model expected 58.65 buyers, but only 40 bought, which is
+46.6\% too many. In November it expected 100.47 among 299 and 98 bought (Fig.~\ref{fig:probs}a). We
+tried recalibrating on October after the fact \cite{b6} (Fig.~\ref{fig:probs}b). Platt scaling lowered
+November's Brier score from 0.1970 to 0.1874 but raised December's from 0.1089 to 0.1138. October's
+purchase rate (20.9\%) sits between November's (25.4\%) and December's (12.5\%), so a single fixed
+correction cannot suit both months.
+
+\subsection{Feature availability}
+With the boosting algorithm held fixed (Fig.~\ref{fig:models}b,c), AP and ROC-AUC on November and
+December combined are 0.269 and 0.600 with arrival-context features, 0.327 and 0.677 once
+completed-session behaviour is added, and 0.651 and 0.824 with PageValues as well. The higher numbers
+depend on information that only exists after the session ends.
+
+\begin{figure*}[t]
+\centering\includegraphics[width=\textwidth]{fF_probs.png}
+\caption{Probabilities and alternatives. (a) Reliability diagrams with quantile bins. (b) Predicted and actual buyers in the top-10\% group, with and without recalibration fitted on October (post-hoc). (c) Purchase rate in the top 10\% for the model, simple rules and random selection (post-hoc).}
+\label{fig:probs}
+\end{figure*}
+
+\subsection{How solid is the capacity finding? (post-hoc)}
+\emph{The Month feature.} Training stops in September, so no October, November or December row has a
+Month value the model has seen. Its one-hot columns are all zero for these rows, a combination that never
+occurs in training. SpecialDay is non-zero only in February and May, so it is zero for every evaluated
+session. Permutation importance for both features is exactly zero from October on. They add nothing to
+the ranking, yet they still move the overall score level. Table~\ref{tab:abl} and
+Fig.~\ref{fig:learned}c show what happens when Month is removed: AP barely changes, but the frozen
+cutoff picks 139 December sessions with boosting, or 105 with logistic regression, instead of 182, and
+December ends up short rather than over budget.
+
+\begin{table}[t]
+\caption{Ablation, boosting, 10\% budget (post-hoc)}\label{tab:abl}
+\centering\footnotesize
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Features & Oct AP & Nov sel./299 & Dec sel./172 & Dec AP\\
+\midrule
+Primary (8 features) & 0.250 & 249 & 182 & 0.194\\
+Without Month & 0.252 & 232 & 139 & 0.200\\
+Without Month, SpecialDay & 0.242 & 215 & 128 & 0.199\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\emph{Noise in the cutoff.} When we re-estimate $\tau$ on 2,000 bootstrap resamples of October, the
+middle 95\% of outcomes runs from 199 to 301 selected sessions in November and from 127 to 208 in December
+(Fig.~\ref{fig:cap}c). November falls short of its budget in 96\% of resamples, but December goes over in
+only 80\%. Across target budgets from 2\% to 30\%, December flips from over to under somewhere between the
+10\% and 12\% targets (Fig.~\ref{fig:cap}b).
+
+\emph{Model choice and seeds.} Boosting won with every seed from 161 to 170. If logistic regression had
+won the 0.0014 race, the frozen cutoff would have picked 236 sessions in November and 183 in December.
+Tuning inside the training months did not raise October AP, and the tuned models still picked between
+175 and 229 November sessions and between 162 and 167 December sessions.
+
+\subsection{Why the cutoff drifts and what the model learned (post-hoc)}
+TrafficType moved the most (Fig.~\ref{fig:drift}b,c), and the score distribution changes shape near the
+cutoff (Fig.~\ref{fig:drift}a). Traffic types 4 and 5 made up 17\% of October sessions and nearly
+disappear afterwards, while types 8 and 10, which October did not have, make up about 12\% of November
+and December sessions. New visitors were 22.6\% of sessions in October, 14.0\% in November and 19.4\% in
+December. The frozen cutoff lets through 40\% to 51\% of new visitors but only about 1\% of returning
+ones (Fig.~\ref{fig:learned}a), so the share of new visitors largely decides how many sessions are
+selected. Permutation importance puts TrafficType and VisitorType first, with Month and SpecialDay at
+exactly zero (Fig.~\ref{fig:learned}b).
+
+Simple rules do almost as well (Fig.~\ref{fig:probs}c). Ranking new visitors first, in random order
+within each group, reaches 30.4\% precision in the top 10\% in November and 23.8\% in December, against
+the model's 32.8\% and 23.3\%. Ranking by each traffic type's training purchase rate does better than the
+model in November (34.1\%) and much worse in December (16.9\%). The rolling cutoff, which used November's
+scores to set December's cutoff, picked 205 December sessions. That is further from the budget than the
+frozen cutoff, because the traffic mix swung back the other way (Fig.~\ref{fig:cap}a).
+
+\subsection{Duplicate sensitivity (pre-specified)}
+With the 125 identical rows removed and the whole protocol repeated, the frozen cutoff picked 206 of 298
+sessions in November and 129 of 170 in December. Here too, December comes in under budget instead of
+over it.
+
+\section{Discussion}
+One result held in every version of the analysis: a probability cutoff frozen on one month did not
+deliver the intended workload in later months, and missed by up to a sixth of the budget. Any team
+that plans staff around a score threshold should expect this. The size and even the direction of the
+miss did not hold up. They changed with the Month encoding, with how duplicates were handled, with the
+budget level and the algorithm, and with noise in the cutoff estimate. Saying that ``December overloads
+the team by 6\%'' would claim more than the data supports.
+
+For a retailer this is mainly a question of operations, and only partly one of modelling. A safer
+design would fix the volume directly, by taking the top $k$ sessions in each arrival window, and would
+check the predicted buyer counts separately against recent outcomes. A frozen probability threshold
+gives neither the volume nor the buyer count reliably. To put a rough price on the mismatch, suppose
+one overflow session costs $r$ times as much as one idle slot. The cost $U+rO$ was then 50 idle-slot
+units in November whatever the value of $r$, and $10r$ in December. We have no real cost data, so this
+only shows the trade-off; it is not an estimate in money.
+
+On the technical side, a model that sees only arrival information is weak here (AUC about 0.6) and
+behaves much like a visitor-type rule. The large gains from session behaviour and PageValues are not
+available at arrival. Tracking PSI on TrafficType and VisitorType would have flagged the shift before
+any purchase outcomes came in \cite{b8}. Boosted-tree probabilities were also unstable from month to month
+\cite{b13}, and a fixed recalibration helped one month while hurting the other.
+
+The study has clear limits. It covers one retailer for one year at monthly resolution, with no
+timestamps, so we cannot simulate a live queue. It has no record of interventions, so a high purchase
+score does not tell us whether contacting that shopper would help. The 10\% budget is our assumption.
+The bootstrap intervals ignore correlation over time and the model-selection step. We chose every
+post-hoc analysis after seeing the test results, so those analyses explain the main result but cannot
+confirm it.
+
+\section{Conclusion}
+A purchase-score cutoff frozen in October did not hold a 10\% workload in November or December. The miss
+is real, but its size and direction depend on choices that should not matter much. Models limited to
+arrival information ranked shoppers only a little better than chance and about as well as putting new
+visitors first. Before using purchase scores to allocate staff, a retailer should control volume with an
+explicit top-$k$ rule for each arrival window, track traffic-mix drift and predicted buyer counts on their
+own, and confirm which features are actually available when the decision is made. Future work could use
+timestamped clickstreams to simulate a live queue, and randomised trials to measure the extra sales an
+intervention brings rather than who was already likely to buy.
+
+\section{Reproducibility}
+The code, the source and cleaned data, every result table and figure, and the tests are at
+\url{https://github.com/YashwanthPb/SeasonSafe}. To repeat the study, install the pinned versions in
+\texttt{requirements\_verified.txt} (Python 3.13 or 3.14, scikit-learn 1.9.0, pandas 3.0.5, NumPy 2.5.1)
+and run \texttt{experiment.py} for the main analysis, \texttt{experiment.py --dedup} for the duplicate
+sensitivity and \texttt{extended\_analysis.py} for the post-hoc checks. Our own re-run matched every
+published table to within $10^{-12}$. The decision file records the seed, cutoffs, package versions and
+the SHA-256 hash of the data. The data are licensed CC BY 4.0 \cite{b1}.
+
+\subsection{AI Use Declaration}
+ChatGPT helped refine the topic and the experimental protocol, and drafted the original code,
+documentation and report text. Claude Code (Anthropic) helped audit the repository, wrote the post-hoc
+analyses, the tests and this LaTeX draft, and later edited the draft's wording with a humanizer skill to
+read more plainly. Every number in the paper was computed by code from the dataset and checked against
+the saved predictions. A large share of the text and code is AI-generated, and we have not established
+that it is below the course limit of 20\%. Details are in \texttt{AI\_USE\_LOG.md}.
+% TODO(team): replace with your own declaration after rewriting the paper yourselves.
+
+\begin{thebibliography}{00}
+\bibitem{b7} J. Gama, I. \v{Z}liobait\.{e}, A. Bifet, M. Pechenizkiy, and A. Bouchachia, ``A survey on concept drift adaptation,'' \emph{ACM Comput. Surv.}, vol. 46, no. 4, art. 44, 2014, doi: 10.1145/2523813.
+\bibitem{b8} S. Rabanser, S. G\"unnemann, and Z. Lipton, ``Failing loudly: An empirical study of methods for detecting dataset shift,'' in \emph{Adv. Neural Inf. Process. Syst. 32}, 2019, pp. 1396--1408.
+\bibitem{b2} C. O. Sakar, S. O. Polat, M. Katircioglu, and Y. Kastro, ``Real-time prediction of online shoppers' purchasing intention using multilayer perceptron and LSTM recurrent neural networks,'' \emph{Neural Comput. Appl.}, vol. 31, pp. 6893--6908, 2019, doi: 10.1007/s00521-018-3523-0.
+\bibitem{b3} K. Baati and M. Mohsil, ``Real-time prediction of online shoppers' purchasing intention using random forest,'' in \emph{Artificial Intelligence Applications and Innovations}, IFIP AICT, vol. 583, 2020, pp. 43--51, doi: 10.1007/978-3-030-49161-1\_4.
+\bibitem{b9} W. W. Moe and P. S. Fader, ``Dynamic conversion behavior at e-commerce sites,'' \emph{Manage. Sci.}, vol. 50, no. 3, pp. 326--335, 2004, doi: 10.1287/mnsc.1040.0153.
+\bibitem{b10} J. Qui\~nonero-Candela, M. Sugiyama, A. Schwaighofer, and N. D. Lawrence, Eds., \emph{Dataset Shift in Machine Learning}. Cambridge, MA, USA: MIT Press, 2009.
+\bibitem{b11} J. Platt, ``Probabilistic outputs for support vector machines and comparisons to regularized likelihood methods,'' in \emph{Advances in Large Margin Classifiers}. Cambridge, MA, USA: MIT Press, 1999, pp. 61--74.
+\bibitem{b12} B. Zadrozny and C. Elkan, ``Transforming classifier scores into accurate multiclass probability estimates,'' in \emph{Proc. 8th ACM SIGKDD}, 2002, pp. 694--699.
+\bibitem{b13} A. Niculescu-Mizil and R. Caruana, ``Predicting good probabilities with supervised learning,'' in \emph{Proc. 22nd ICML}, 2005, pp. 625--632.
+\bibitem{b14} S. Kaufman, S. Rosset, C. Perlich, and O. Stitelman, ``Leakage in data mining: Formulation, detection, and avoidance,'' \emph{ACM Trans. Knowl. Discov. Data}, vol. 6, no. 4, art. 15, 2012, doi: 10.1145/2382577.2382579.
+\bibitem{b1} C. Sakar and Y. Kastro, ``Online Shoppers Purchasing Intention Dataset,'' UCI Machine Learning Repository, 2018, doi: 10.24432/C5F88Q.
+\bibitem{b4} scikit-learn developers, ``Common pitfalls and recommended practices,'' scikit-learn documentation. [Online]. Available: https://scikit-learn.org/stable/common\_pitfalls.html
+\bibitem{b5} F. Pedregosa \emph{et al.}, ``Scikit-learn: Machine learning in Python,'' \emph{J. Mach. Learn. Res.}, vol. 12, pp. 2825--2830, 2011.
+\bibitem{b15} L. Breiman, ``Random forests,'' \emph{Mach. Learn.}, vol. 45, no. 1, pp. 5--32, 2001.
+\bibitem{b16} G. Ke \emph{et al.}, ``LightGBM: A highly efficient gradient boosting decision tree,'' in \emph{Adv. Neural Inf. Process. Syst. 30}, 2017, pp. 3146--3154.
+\bibitem{b17} T. Saito and M. Rehmsmeier, ``The precision-recall plot is more informative than the ROC plot when evaluating binary classifiers on imbalanced datasets,'' \emph{PLoS ONE}, vol. 10, no. 3, e0118432, 2015.
+\bibitem{b18} B. Efron and R. J. Tibshirani, \emph{An Introduction to the Bootstrap}. New York, NY, USA: Chapman \& Hall, 1993.
+\bibitem{b6} scikit-learn developers, ``Probability calibration,'' scikit-learn documentation. [Online]. Available: https://scikit-learn.org/stable/modules/calibration.html
+\end{thebibliography}
+
+\end{document}

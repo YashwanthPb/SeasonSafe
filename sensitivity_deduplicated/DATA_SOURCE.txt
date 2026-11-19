@@ -1,0 +1,2 @@
+UCI Online Shoppers Purchasing Intention Dataset (468). Sakar and Kastro (2018). DOI: 10.24432/C5F88Q. CC BY 4.0. https://archive.ics.uci.edu/dataset/468/online+shoppers+purchasing+intention+dataset
+Check locked_decisions.json: quick_test_only=true means synthetic test data, NOT UCI data.

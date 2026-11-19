@@ -1,0 +1,5 @@
+analysis_status,partition,n,month_values,month_seen_in_training,specialday_nonzero_rows,new_visitor_share,purchase_rate
+post-hoc (designed after held-out results were seen),train,7056,"Feb,Mar,May,June,Jul,Aug,Sep",True,1251,0.11564625850340136,0.11578798185941043
+post-hoc (designed after held-out results were seen),Oct,549,Oct,False,0,0.22586520947176686,0.20947176684881602
+post-hoc (designed after held-out results were seen),Nov,2998,Nov,False,0,0.13975983989326218,0.25350233488992663
+post-hoc (designed after held-out results were seen),Dec,1727,Dec,False,0,0.19397799652576722,0.1250723798494499

@@ -1,0 +1,19 @@
+analysis_status,rule,period,precision_top10,buyers_top10,average_precision,roc_auc
+post-hoc (designed after held-out results were seen),Model: hist_boost arrival-context (primary),Oct,0.2037037037037037,11.0,0.2502167003293225,0.593428170707273
+post-hoc (designed after held-out results were seen),Model: hist_boost arrival-context (primary),Nov,0.3277591973244147,98.0,0.3208911214870598,0.5967922487183105
+post-hoc (designed after held-out results were seen),Model: hist_boost arrival-context (primary),Dec,0.23255813953488372,40.0,0.19439708765455732,0.6382255435448685
+post-hoc (designed after held-out results were seen),"Rule: new visitors first, random within group",Oct,0.14814814814814814,8.0,0.21344890748702855,0.5111400520937688
+post-hoc (designed after held-out results were seen),"Rule: new visitors first, random within group",Nov,0.30434782608695654,91.0,0.26225802756416183,0.5191971214900523
+post-hoc (designed after held-out results were seen),"Rule: new visitors first, random within group",Dec,0.23837209302325582,41.0,0.1593807885874622,0.5875753731892052
+post-hoc (designed after held-out results were seen),Rule: training purchase rate by VisitorType,Oct,0.14814814814814814,8.0,0.21344890748702855,0.5111400520937688
+post-hoc (designed after held-out results were seen),Rule: training purchase rate by VisitorType,Nov,0.30434782608695654,91.0,0.262974710726923,0.5210100065848268
+post-hoc (designed after held-out results were seen),Rule: training purchase rate by VisitorType,Dec,0.23837209302325582,41.0,0.15751385055633452,0.573245275387896
+post-hoc (designed after held-out results were seen),Rule: training purchase rate by TrafficType,Oct,0.14814814814814814,8.0,0.2351396373926552,0.5678020436786214
+post-hoc (designed after held-out results were seen),Rule: training purchase rate by TrafficType,Nov,0.3411371237458194,102.0,0.3049667921175141,0.5949946498283241
+post-hoc (designed after held-out results were seen),Rule: training purchase rate by TrafficType,Dec,0.1686046511627907,29.0,0.15098389135764162,0.5969878299874991
+post-hoc (designed after held-out results were seen),Rule: training rate by VisitorType x TrafficType,Oct,0.16666666666666666,9.0,0.24380208266865386,0.5903526347425366
+post-hoc (designed after held-out results were seen),Rule: training rate by VisitorType x TrafficType,Nov,0.32441471571906355,97.0,0.30023258250818274,0.5853458209867834
+post-hoc (designed after held-out results were seen),Rule: training rate by VisitorType x TrafficType,Dec,0.22093023255813954,38.0,0.1707498207317638,0.6150467558889133
+post-hoc (designed after held-out results were seen),Random selection (expected),Oct,0.20947176684881602,11.311475409836065,0.20947176684881602,0.5
+post-hoc (designed after held-out results were seen),Random selection (expected),Nov,0.25350233488992663,75.79719813208806,0.25350233488992663,0.5
+post-hoc (designed after held-out results were seen),Random selection (expected),Dec,0.1250723798494499,21.512449334105384,0.1250723798494499,0.5

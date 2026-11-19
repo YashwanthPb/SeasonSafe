@@ -1,0 +1,8 @@
+analysis_status,Month,n,specialday_nonzero,purchase_rate,share_of_training
+post-hoc (designed after held-out results were seen),Feb,184,79,0.016304347826086956,0.026077097505668934
+post-hoc (designed after held-out results were seen),Mar,1907,0,0.10068169900367069,0.27026643990929705
+post-hoc (designed after held-out results were seen),May,3364,1172,0.10850178359096314,0.4767573696145125
+post-hoc (designed after held-out results were seen),June,288,0,0.10069444444444445,0.04081632653061224
+post-hoc (designed after held-out results were seen),Jul,432,0,0.1527777777777778,0.061224489795918366
+post-hoc (designed after held-out results were seen),Aug,433,0,0.17551963048498845,0.06136621315192744
+post-hoc (designed after held-out results were seen),Sep,448,0,0.19196428571428573,0.06349206349206349

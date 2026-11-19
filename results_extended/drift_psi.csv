@@ -1,0 +1,36 @@
+analysis_status,reference,period,feature,psi
+post-hoc (designed after held-out results were seen),train,Oct,VisitorType,0.08935789294547938
+post-hoc (designed after held-out results were seen),train,Oct,TrafficType,0.9311524536083713
+post-hoc (designed after held-out results were seen),train,Oct,Browser,0.06612751748422117
+post-hoc (designed after held-out results were seen),train,Oct,OperatingSystems,0.055842490563771954
+post-hoc (designed after held-out results were seen),train,Oct,Region,0.015032398339240713
+post-hoc (designed after held-out results were seen),train,Oct,Weekend,0.008827477345413684
+post-hoc (designed after held-out results were seen),train,Oct,model score (decile bins),0.4557986900757215
+post-hoc (designed after held-out results were seen),train,Nov,VisitorType,0.03410007585648118
+post-hoc (designed after held-out results were seen),train,Nov,TrafficType,0.8401063526915509
+post-hoc (designed after held-out results were seen),train,Nov,Browser,0.026914453780752225
+post-hoc (designed after held-out results were seen),train,Nov,OperatingSystems,0.030909323921588457
+post-hoc (designed after held-out results were seen),train,Nov,Region,0.043881448786712615
+post-hoc (designed after held-out results were seen),train,Nov,Weekend,0.009500522157867095
+post-hoc (designed after held-out results were seen),train,Nov,model score (decile bins),0.3165899346861041
+post-hoc (designed after held-out results were seen),train,Dec,VisitorType,0.25418623425593
+post-hoc (designed after held-out results were seen),train,Dec,TrafficType,3.0833821817080644
+post-hoc (designed after held-out results were seen),train,Dec,Browser,0.20666091964250818
+post-hoc (designed after held-out results were seen),train,Dec,OperatingSystems,0.16359595186072384
+post-hoc (designed after held-out results were seen),train,Dec,Region,0.045481548913682224
+post-hoc (designed after held-out results were seen),train,Dec,Weekend,0.0006066866373598471
+post-hoc (designed after held-out results were seen),train,Dec,model score (decile bins),0.5278408641619203
+post-hoc (designed after held-out results were seen),Oct,Nov,VisitorType,0.12677510562182195
+post-hoc (designed after held-out results were seen),Oct,Nov,TrafficType,2.1172766660338587
+post-hoc (designed after held-out results were seen),Oct,Nov,Browser,0.058412923706960496
+post-hoc (designed after held-out results were seen),Oct,Nov,OperatingSystems,0.12316120651921372
+post-hoc (designed after held-out results were seen),Oct,Nov,Region,0.021459972406615867
+post-hoc (designed after held-out results were seen),Oct,Nov,Weekend,1.2352492474392673e-05
+post-hoc (designed after held-out results were seen),Oct,Nov,model score (decile bins),0.10695983201298277
+post-hoc (designed after held-out results were seen),Oct,Dec,VisitorType,0.44254901786831585
+post-hoc (designed after held-out results were seen),Oct,Dec,TrafficType,3.9267976632326276
+post-hoc (designed after held-out results were seen),Oct,Dec,Browser,0.4654957514012301
+post-hoc (designed after held-out results were seen),Oct,Dec,OperatingSystems,0.45285847249881306
+post-hoc (designed after held-out results were seen),Oct,Dec,Region,0.019199760469749243
+post-hoc (designed after held-out results were seen),Oct,Dec,Weekend,0.014065853669530136
+post-hoc (designed after held-out results were seen),Oct,Dec,model score (decile bins),0.08469714072468097

@@ -1,0 +1,17 @@
+analysis_status,overflow_to_idle_cost_ratio,period,policy,unused_capacity,over_budget,mismatch_cost_idle_slot_units
+post-hoc (designed after held-out results were seen),0.5,Nov,fixed_october_cutoff,50,0,50.0
+post-hoc (designed after held-out results were seen),0.5,Nov,batch_top_budget,0,0,0.0
+post-hoc (designed after held-out results were seen),0.5,Dec,fixed_october_cutoff,0,10,5.0
+post-hoc (designed after held-out results were seen),0.5,Dec,batch_top_budget,0,0,0.0
+post-hoc (designed after held-out results were seen),1.0,Nov,fixed_october_cutoff,50,0,50.0
+post-hoc (designed after held-out results were seen),1.0,Nov,batch_top_budget,0,0,0.0
+post-hoc (designed after held-out results were seen),1.0,Dec,fixed_october_cutoff,0,10,10.0
+post-hoc (designed after held-out results were seen),1.0,Dec,batch_top_budget,0,0,0.0
+post-hoc (designed after held-out results were seen),2.0,Nov,fixed_october_cutoff,50,0,50.0
+post-hoc (designed after held-out results were seen),2.0,Nov,batch_top_budget,0,0,0.0
+post-hoc (designed after held-out results were seen),2.0,Dec,fixed_october_cutoff,0,10,20.0
+post-hoc (designed after held-out results were seen),2.0,Dec,batch_top_budget,0,0,0.0
+post-hoc (designed after held-out results were seen),4.0,Nov,fixed_october_cutoff,50,0,50.0
+post-hoc (designed after held-out results were seen),4.0,Nov,batch_top_budget,0,0,0.0
+post-hoc (designed after held-out results were seen),4.0,Dec,fixed_october_cutoff,0,10,40.0
+post-hoc (designed after held-out results were seen),4.0,Dec,batch_top_budget,0,0,0.0

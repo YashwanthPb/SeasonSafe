@@ -1,5 +1,9 @@
 # SeasonSafe: verified first-run findings
 
+> **Read with EXTENDED_FINDINGS.md.** Post-hoc checks (19 Nov) show the size and direction of the
+> capacity error depend on an unseen-Month encoding artefact and on cutoff estimation noise, and that the
+> model performs close to a "new visitors first" rule. The locked results below are unchanged.
+
 Run completed 11 November 2026 on the official UCI dataset. This is an exploratory course-project
 analysis, not a production-ready targeting model or a team-authored final paper.
 

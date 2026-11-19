@@ -15,3 +15,18 @@ and record genuine team implementation, decisions, validation, interpretation an
 
 Maintain columns Date / Person / Assistance / Independently completed work / Evidence / Final use.
 Do not use paraphrasing or detector tricks to disguise AI assistance.
+
+## 19 November 2026: Claude Code (Anthropic)
+Assistance: repository audit against the AMLBT template; unpacked the delivery bundle into the repository;
+added the `--dedup` command-line option to experiment.py; wrote extended_analysis.py (post-hoc ablation,
+rule baselines, cutoff bootstrap, seed and tuning checks, recalibration, drift, permutation importance,
+rolling cutoff, capacity curve, cost scenarios); wrote tests/; pinned the notebook install; drafted
+EXTENDED_FINDINGS.md, README.md updates, VALIDATION.md addendum and the IEEE LaTeX draft in report/.
+Verification performed by the tool: reran the primary and sensitivity pipelines and compared every
+published CSV (max difference 1e-12); 12 automated tests pass.
+Team-authored work in this session: none. The AI share of code and text increased in this session.
+Later the same day: Claude Code wrote report/make_figures.py and replaced the report's seven single plots
+with six multi-panel figures (16 panels), and added team names from the course team sheet to the author block.
+Later the same day: at the user's request, Claude Code ran a humanizer editing pass over report/seasonsafe.tex
+(plainer wording, no en/em dashes in prose; all numbers, citations and claims unchanged). This changes
+phrasing only; it does not change who wrote the text or the AI share.

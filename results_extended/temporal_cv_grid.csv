@@ -1,0 +1,21 @@
+analysis_status,model,params,folds,cv_mean_ap,cv_std_ap
+post-hoc (designed after held-out results were seen),logistic,"{""C"": 0.01}",4,0.2245222331584712,0.03887912208798519
+post-hoc (designed after held-out results were seen),logistic,"{""C"": 0.1}",4,0.22063882142904193,0.03854992988846845
+post-hoc (designed after held-out results were seen),logistic,"{""C"": 1}",4,0.21845151521694364,0.03636530731034817
+post-hoc (designed after held-out results were seen),logistic,"{""C"": 10}",4,0.21820947569950616,0.034415864560927344
+post-hoc (designed after held-out results were seen),random_forest,"{""min_samples_leaf"": 5, ""n_estimators"": 200}",4,0.23838774436190036,0.04154464241453527
+post-hoc (designed after held-out results were seen),random_forest,"{""min_samples_leaf"": 10, ""n_estimators"": 200}",4,0.23725042041045208,0.03900641625534291
+post-hoc (designed after held-out results were seen),random_forest,"{""min_samples_leaf"": 25, ""n_estimators"": 200}",4,0.23887878889325115,0.03717511085626945
+post-hoc (designed after held-out results were seen),random_forest,"{""min_samples_leaf"": 50, ""n_estimators"": 200}",4,0.23315251420665828,0.03401226467686315
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 7, ""learning_rate"": 0.03, ""max_iter"": 75}",4,0.23346250445912314,0.037023295643594016
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 7, ""learning_rate"": 0.03, ""max_iter"": 150}",4,0.23399937172554663,0.037708860983868726
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 7, ""learning_rate"": 0.1, ""max_iter"": 75}",4,0.22629862038139054,0.04647093225931957
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 7, ""learning_rate"": 0.1, ""max_iter"": 150}",4,0.21986981260217375,0.04456748627242031
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 15, ""learning_rate"": 0.03, ""max_iter"": 75}",4,0.2387918806342567,0.029853383098949426
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 15, ""learning_rate"": 0.03, ""max_iter"": 150}",4,0.23885395935879705,0.03383256013093503
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 15, ""learning_rate"": 0.1, ""max_iter"": 75}",4,0.23252746892312826,0.04370827411131499
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 15, ""learning_rate"": 0.1, ""max_iter"": 150}",4,0.23096793036956048,0.03519829173409254
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 31, ""learning_rate"": 0.03, ""max_iter"": 75}",4,0.23809797240891084,0.03125236131156597
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 31, ""learning_rate"": 0.03, ""max_iter"": 150}",4,0.23592732759040203,0.027202754595193116
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 31, ""learning_rate"": 0.1, ""max_iter"": 75}",4,0.22971782942968028,0.02827301931325152
+post-hoc (designed after held-out results were seen),hist_boost,"{""max_leaf_nodes"": 31, ""learning_rate"": 0.1, ""max_iter"": 150}",4,0.22700564257794853,0.018695096975708335

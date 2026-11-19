@@ -1,0 +1,25 @@
+analysis_status,period,feature,ap_drop_mean,ap_drop_std,repeats
+post-hoc (designed after held-out results were seen),Oct,Month,0.0,0.0,30
+post-hoc (designed after held-out results were seen),Oct,OperatingSystems,0.00771931074376998,0.008733295278028148,30
+post-hoc (designed after held-out results were seen),Oct,Browser,0.002671658146719702,0.004224728264875345,30
+post-hoc (designed after held-out results were seen),Oct,Region,-0.0007852922307297006,0.011483299773126836,30
+post-hoc (designed after held-out results were seen),Oct,TrafficType,0.02419855566861164,0.013315201741485812,30
+post-hoc (designed after held-out results were seen),Oct,VisitorType,-0.014669857362313885,0.015883028726679307,30
+post-hoc (designed after held-out results were seen),Oct,Weekend,0.005254427417916325,0.00434176657468539,30
+post-hoc (designed after held-out results were seen),Oct,SpecialDay,0.0,0.0,30
+post-hoc (designed after held-out results were seen),Nov,Month,0.0,0.0,30
+post-hoc (designed after held-out results were seen),Nov,OperatingSystems,0.01964780026791185,0.006403315593017773,30
+post-hoc (designed after held-out results were seen),Nov,Browser,0.010030866664645952,0.0032513939414561353,30
+post-hoc (designed after held-out results were seen),Nov,Region,-0.0025851750673908805,0.0055273471357385855,30
+post-hoc (designed after held-out results were seen),Nov,TrafficType,0.038456782594767265,0.007494751745239605,30
+post-hoc (designed after held-out results were seen),Nov,VisitorType,0.014743157608065908,0.005061005970526256,30
+post-hoc (designed after held-out results were seen),Nov,Weekend,0.004153722959028679,0.0027501519036222744,30
+post-hoc (designed after held-out results were seen),Nov,SpecialDay,0.0,0.0,30
+post-hoc (designed after held-out results were seen),Dec,Month,0.0,0.0,30
+post-hoc (designed after held-out results were seen),Dec,OperatingSystems,0.010431001464874079,0.008193582258706802,30
+post-hoc (designed after held-out results were seen),Dec,Browser,0.007072788524067171,0.004321574350709043,30
+post-hoc (designed after held-out results were seen),Dec,Region,0.0042560233365700065,0.008643427240468871,30
+post-hoc (designed after held-out results were seen),Dec,TrafficType,0.020897816225198936,0.009469065339269146,30
+post-hoc (designed after held-out results were seen),Dec,VisitorType,0.026204984036513446,0.008280360649577476,30
+post-hoc (designed after held-out results were seen),Dec,Weekend,0.0028659786464408643,0.0039322673078696045,30
+post-hoc (designed after held-out results were seen),Dec,SpecialDay,0.0,0.0,30
