@@ -6,8 +6,7 @@ This project audits whether a purchase-score cutoff that selects 10% of October 
 (12,330 sessions, CC BY 4.0). Course project for Advanced Machine Learning for Business Transformation,
 Goa Institute of Management. Team 46 (Section C): Garima Rohilla, Harleen Kaur, Yashwanth M.
 
-Report: [PDF](SeasonSafe_Project_Report.pdf) · [Word](SeasonSafe_Project_Report.docx) ·
-[IEEE LaTeX source](report/seasonsafe.tex)
+Current report (IEEE draft): [PDF](report/seasonsafe.pdf) · [Word](report/SeasonSafe_IEEE_Report.docx) · [LaTeX](report/seasonsafe.tex). Earlier 11 Nov report: [PDF](SeasonSafe_Project_Report.pdf) · [Word](SeasonSafe_Project_Report.docx)
 
 ## Read in this order
 1. `PROJECT_BRIEF.md`: problem, locked protocol, metrics, viva questions.
